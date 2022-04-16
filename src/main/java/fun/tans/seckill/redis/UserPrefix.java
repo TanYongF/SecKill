@@ -1,0 +1,21 @@
+package fun.tans.seckill.redis;
+
+/**
+ * @Describe: 类描述
+ * @Author: tyf
+ * @CreateTime: 2022/4/16
+ **/
+public class UserPrefix extends BasePrefix{
+
+
+    public UserPrefix(String prefix) {
+        super(prefix);
+    }
+
+    public static UserPrefix getById = new UserPrefix("id");
+    public static UserPrefix getByName = new UserPrefix("name");
+
+
+
+
+}
