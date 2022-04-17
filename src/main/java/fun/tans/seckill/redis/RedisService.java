@@ -1,13 +1,10 @@
 package fun.tans.seckill.redis;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * @Describe: 类描述
@@ -29,7 +26,7 @@ public class RedisService {
             T ret = stringToBean(jedis.get(realKey), clazz);
             return ret;
         }finally {
-            jedis.close();
+            returnToPool(jedis);
         }
 
     }
@@ -58,7 +55,6 @@ public class RedisService {
         }finally {
             returnToPool(jedis);
         }
-
     }
 
 
@@ -108,34 +104,36 @@ public class RedisService {
     }
 
     private <T> String beanToString(T value) {
-        if(value == null) return null;
+        if(value == null) {
+            return null;
+        }
         Class<?> clazz = value.getClass();
-        if(clazz == int.class || clazz == long.class || clazz == Long.class || clazz == Integer.class){
-            return String.valueOf(value);
-        }else if(clazz == String.class){
-            return (String) value;
-        }else{
+        if(clazz == int.class || clazz == Integer.class) {
+            return ""+value;
+        }else if(clazz == String.class) {
+            return (String)value;
+        }else if(clazz == long.class || clazz == Long.class) {
+            return ""+value;
+        }else {
             return JSON.toJSONString(value);
         }
     }
 
-    private <T> T stringToBean(String str, Class<T> clazz){
-        if(str == null || str.length() < 0 || clazz==null){
+    @SuppressWarnings("unchecked")
+    private <T> T stringToBean(String str, Class<T> clazz) {
+        if(str == null || str.length() <= 0 || clazz == null) {
             return null;
         }
-        if(clazz == int.class || clazz == Integer.class){
+        if(clazz == int.class || clazz == Integer.class) {
             return (T)Integer.valueOf(str);
-        }else if(clazz == String.class){
+        }else if(clazz == String.class) {
             return (T)str;
-        }else if(clazz == long.class || clazz == Long.class){
-            return (T)Long.valueOf(str);
-        }else{
-//            return (T)JSON.parse(str);
+        }else if(clazz == long.class || clazz == Long.class) {
+            return  (T)Long.valueOf(str);
+        }else {
             return JSON.toJavaObject(JSON.parseObject(str), clazz);
         }
-
     }
-
 
     private void returnToPool(Jedis jedis) {
         if(jedis != null) {

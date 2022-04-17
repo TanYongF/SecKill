@@ -1,18 +1,20 @@
 package fun.tans.seckill.controller;
 
-import com.alibaba.druid.util.StringUtils;
 import fun.tans.seckill.redis.RedisService;
 import fun.tans.seckill.result.CodeMsg;
 import fun.tans.seckill.result.Result;
-import fun.tans.seckill.service.MiaoshaService;
-import fun.tans.seckill.util.ValidatorUtil;
+import fun.tans.seckill.service.MiaoshaUserService;
 import fun.tans.seckill.vo.LoginVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -31,7 +33,7 @@ public class LoginController {
     private RedisService redisService;
 
     @Autowired
-    private MiaoshaService miaoshaService;
+    private MiaoshaUserService miaoshaUserService;
 
 
     @GetMapping("/do_login")
@@ -41,30 +43,10 @@ public class LoginController {
 
     @PostMapping("/do_login")
     @ResponseBody
-    public Result<CodeMsg> doLogin(@Valid LoginVo loginVo){
-
+    public Result<CodeMsg> doLogin(@Valid LoginVo loginVo, HttpServletResponse response) {
         logger.info("【用户登陆提醒】" +loginVo.toString() + "尝试登陆....");
-//        String passInput = loginVo.getPassword();
-//        String mobileInput = loginVo.getMobile();
 
-//        if(StringUtils.isEmpty(passInput)){
-//            return Result.error(CodeMsg.PASSWORD_EMPTY);
-//        }
-//        if(StringUtils.isEmpty(mobileInput)){
-//            return Result.error(CodeMsg.MOBILE_ERROR);
-//        }
-//
-//        if(!ValidatorUtil.isMobile(mobileInput)){
-//            return Result.error(CodeMsg.MOBILE_ERROR);
-//        }
-        CodeMsg msg = miaoshaService.login(loginVo);
-
-        if(msg.getCode() == 0){
-            logger.info(loginVo.getMobile() + "登陆成功！");
-            return Result.success(CodeMsg.SUCCESS);
-        }else{
-            logger.error(loginVo.getMobile() +  "登陆失败！");
-            return Result.error(msg);
-        }
+        miaoshaUserService.login(loginVo, response);
+        return Result.success(CodeMsg.SUCCESS);
     }
 }

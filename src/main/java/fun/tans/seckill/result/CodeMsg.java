@@ -43,7 +43,12 @@ public class CodeMsg {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	
+
+	/**
+	 * 返回带参数的返回码
+	 * @param args
+	 * @return
+	 */
 	public CodeMsg fillArgs(Object... args) {
 		int code = this.code;
 		String message = String.format(this.msg, args);

@@ -1,8 +1,6 @@
 package fun.tans.seckill.redis;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 /**
  * @Describe: 类描述
