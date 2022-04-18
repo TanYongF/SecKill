@@ -23,9 +23,9 @@ public class RedisFactory {
     RedisConfig redisConfig;
 
     @Bean
-    public JedisPool JedisFactory(){
+    public JedisPool JedisFactory() {
         JedisPoolConfig config = new JedisPoolConfig();
-        logger.info("redis连接池配置信息："+ redisConfig.toString());
+        logger.info("redis连接池配置信息：" + redisConfig.toString());
         config.setMaxIdle(redisConfig.getPoolMaxIdle());
         config.setMaxTotal(redisConfig.getPoolMaxTotal());
         config.setMaxWaitMillis(redisConfig.getPoolMaxWait());

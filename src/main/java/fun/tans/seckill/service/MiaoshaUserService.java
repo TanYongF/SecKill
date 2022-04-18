@@ -34,49 +34,56 @@ public class MiaoshaUserService {
     @Autowired
     private RedisService redisService;
 
-    public MiaoshaUser getById(long id){
+    public MiaoshaUser getById(long id) {
         return miaoshaUserDao.getById(id);
     }
 
-    public boolean login (LoginVo loginVo, HttpServletResponse response){
-        if(loginVo == null){
+    public boolean login(LoginVo loginVo, HttpServletResponse response) {
+        if (loginVo == null) {
             throw new GlobalException(CodeMsg.SERVER_ERROR);
         }
         //检验用户
         String mobile = loginVo.getMobile();
         MiaoshaUser user = getById(Long.parseLong(mobile));
 
-        if(user==null){
+        if (user == null) {
             throw new LoginException(CodeMsg.MOBILE_NOT_EXIST, loginVo);
         }
 
         String formPass = loginVo.getPassword();
-        String dbPass   = MD5Util.formPassToDbPass(formPass, user.getSalt());
-        if(!dbPass.equals(user.getPassword())){
-           throw new LoginException(CodeMsg.PASSWORD_ERROR, loginVo);
+        String dbPass = MD5Util.formPassToDbPass(formPass, user.getSalt());
+        if (!dbPass.equals(user.getPassword())) {
+            throw new LoginException(CodeMsg.PASSWORD_ERROR, loginVo);
         }
         String token = UUIDUtil.uuid();
         addCookie(response, user, token);
         return true;
     }
 
-    private void addCookie(HttpServletResponse response, MiaoshaUser user, String token){
-        if(user == null || StringUtils.isEmpty(token)) return;
+    private void addCookie(HttpServletResponse response, MiaoshaUser user, String token) {
+        if (user == null || StringUtils.isEmpty(token)) return;
         //生成Cookie
-        redisService.set(MiaoshaUserKey.token,token, user);
+        redisService.set(MiaoshaUserKey.token, token, user);
         Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
         cookie.setMaxAge(MiaoshaUserKey.token.expireSecond());
         cookie.setPath("/");
         response.addCookie(cookie);
     }
 
+    /**
+     * 获取用户token并将其token更新
+     *
+     * @param response
+     * @param token
+     * @return
+     */
     public MiaoshaUser getByToken(HttpServletResponse response, String token) {
-        if(StringUtils.isEmpty(token)){
+        if (StringUtils.isEmpty(token)) {
             return null;
         }
         MiaoshaUser user = redisService.get(MiaoshaUserKey.token, token, MiaoshaUser.class);
 
-        //延长有效期
+        //更新token有效期
         addCookie(response, user, token);
         return user;
     }

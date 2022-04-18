@@ -4,7 +4,6 @@ import fun.tans.seckill.dao.GoodsDao;
 import fun.tans.seckill.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -18,7 +17,16 @@ public class GoodsService {
     @Autowired
     GoodsDao goodsDao;
 
-    public List<GoodsVo> listGoodsVo(){
+    public List<GoodsVo> listGoodsVo() {
         return goodsDao.getGoodsVoList();
+    }
+
+    public GoodsVo getGoodsVoByGoodsId(long goodsId) {
+        return goodsDao.getGoodsVoListById(goodsId);
+    }
+
+
+    public int reduceStock(GoodsVo goods) {
+        return goodsDao.reduceStockByGoodsId(goods.getId());
     }
 }

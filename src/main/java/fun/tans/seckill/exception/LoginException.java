@@ -11,7 +11,7 @@ import lombok.Data;
  * @CreateTime: 2022/4/17
  **/
 @Data
-public class LoginException extends GlobalException{
+public class LoginException extends GlobalException {
 
     private static final long serialVersionUID = 21L;
 
@@ -22,7 +22,7 @@ public class LoginException extends GlobalException{
         this.loginVo = loginVo;
     }
 
-    public LoginException(CodeMsg codeMsg){
+    public LoginException(CodeMsg codeMsg) {
         super(codeMsg);
     }
 }

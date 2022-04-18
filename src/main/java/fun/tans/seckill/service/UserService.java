@@ -16,11 +16,11 @@ public class UserService {
     @Autowired
     UserDao userDao;
 
-    public User getById(long id){
+    public User getById(long id) {
         return userDao.getById(id);
     }
 
-    public int insert(User user){
+    public int insert(User user) {
         return userDao.insert(user);
     }
 

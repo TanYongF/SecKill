@@ -26,21 +26,21 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(Exception.class)
-    public Result<String> exceptionHandler(HttpServletRequest request, Exception e){
+    public Result<String> exceptionHandler(HttpServletRequest request, Exception e) {
         e.printStackTrace();
-        if(e instanceof BindException) {
+        if (e instanceof BindException) {
             BindException ex = (BindException) e;
             List<ObjectError> allErrors = ex.getAllErrors();
             CodeMsg msg = CodeMsg.BIND_ERROR.fillArgs(allErrors.get(0).getDefaultMessage());
             return Result.error(msg);
-        } else if(e instanceof LoginException){
+        } else if (e instanceof LoginException) {
             LoginException le = (LoginException) e;
-            logger.error("【用户登陆错误】:"+ le.getLoginVo().getMobile() + " " +  le.getCodeMsg());
-            return Result.error(((LoginException)e).getCodeMsg());
-        }else if(e instanceof GlobalException){
+            logger.error("【用户登陆错误】:" + le.getLoginVo().getMobile() + " " + le.getCodeMsg());
+            return Result.error(((LoginException) e).getCodeMsg());
+        } else if (e instanceof GlobalException) {
             logger.error(e.getMessage());
             return Result.error(((GlobalException) e).getCodeMsg());
-        }else return Result.error(CodeMsg.SERVER_ERROR);
+        } else return Result.error(CodeMsg.SERVER_ERROR);
     }
 
 }

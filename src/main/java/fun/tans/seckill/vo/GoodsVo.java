@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * @Describe: 类描述
+ * @Describe: 物品视图实体
  * @Author: tyf
  * @CreateTime: 2022/4/17
  **/

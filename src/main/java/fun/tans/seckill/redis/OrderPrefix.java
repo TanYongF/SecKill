@@ -5,7 +5,7 @@ package fun.tans.seckill.redis;
  * @Author: tyf
  * @CreateTime: 2022/4/16
  **/
-public class OrderPrefix extends BasePrefix{
+public class OrderPrefix extends BasePrefix {
 
 
     public OrderPrefix(int expireSeconds, String prefix) {

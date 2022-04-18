@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 
 /**
- * @Describe: 类描述
+ * @Describe: 用户登陆表单视图实体
  * @Author: tyf
  * @CreateTime: 2022/4/16
  **/

@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MiaoshaOrder {
-	private Long id;
-	private Long userId;
-	private Long  orderId;
-	private Long goodsId;
+    private Long id;
+    private Long userId;
+    private Long orderId;
+    private Long goodsId;
 
 }

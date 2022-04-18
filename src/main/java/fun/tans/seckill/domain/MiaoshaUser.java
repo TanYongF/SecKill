@@ -17,13 +17,13 @@ import java.util.Date;
 @NoArgsConstructor
 public class MiaoshaUser implements Serializable {
 
-        private Long id;
-        private String nickname;
-        private String password;
-        private String salt;
-        private String head;
-        private Date registerDate;
-        private Date lastLoginDate;
-        private Integer loginCount;
+    private Long id;
+    private String nickname;
+    private String password;
+    private String salt;
+    private String head;
+    private Date registerDate;
+    private Date lastLoginDate;
+    private Integer loginCount;
 
 }

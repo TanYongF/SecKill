@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import java.util.List;
 
 /**
- * @Describe: 类描述
+ * @Describe: web全局配置类
  * @Author: tyf
  * @CreateTime: 2022/4/17
  **/

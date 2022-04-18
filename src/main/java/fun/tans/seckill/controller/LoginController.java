@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
- * @Describe: 登陆接口
+ * @Describe: 登陆模块Controller
  * @Author: tyf
  * @CreateTime: 2022/4/16
  **/
@@ -37,14 +37,21 @@ public class LoginController {
 
 
     @GetMapping("/do_login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
+    /**
+     * 登陆逻辑
+     *
+     * @param loginVo:用户登陆表单
+     * @param response:      Response
+     * @return Result数据
+     */
     @PostMapping("/do_login")
     @ResponseBody
     public Result<CodeMsg> doLogin(@Valid LoginVo loginVo, HttpServletResponse response) {
-        logger.info("【用户登陆提醒】" +loginVo.toString() + "尝试登陆....");
+        logger.info("【用户登陆提醒】" + loginVo.toString() + "尝试登陆....");
 
         miaoshaUserService.login(loginVo, response);
         return Result.success(CodeMsg.SUCCESS);

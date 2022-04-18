@@ -14,8 +14,8 @@ public class ValidatorUtil {
 
     private static final Pattern mobile_pattern = Pattern.compile("1\\d{10}");
 
-    public static boolean isMobile(String str){
-        if(StringUtils.isEmpty(str)) return false;
+    public static boolean isMobile(String str) {
+        if (StringUtils.isEmpty(str)) return false;
         Matcher matcher = mobile_pattern.matcher(str);
         return matcher.matches();
     }

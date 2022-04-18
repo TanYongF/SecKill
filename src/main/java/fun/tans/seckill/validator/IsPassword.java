@@ -14,17 +14,17 @@ import static java.lang.annotation.ElementType.*;
  * @Author: tyf
  * @CreateTime: 2022/4/17
  **/
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = {IsMobileValidator.class })
+@Constraint(validatedBy = {IsMobileValidator.class})
 public @interface IsPassword {
 
     boolean required() default true;
 
     String message() default "密码格式错误";
 
-    Class<?>[] groups() default { };
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default { };
+    Class<? extends Payload>[] payload() default {};
 }
