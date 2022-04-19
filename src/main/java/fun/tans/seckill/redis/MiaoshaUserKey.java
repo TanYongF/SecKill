@@ -9,7 +9,6 @@ public class MiaoshaUserKey extends BasePrefix {
 
     public static final int TOKEN_EXPIRE_TIME = 24 * 60 * 60;
     public static MiaoshaUserKey token = new MiaoshaUserKey("tk");
-    public static MiaoshaUserKey getByName = new MiaoshaUserKey("name");
 
     public MiaoshaUserKey(String prefix) {
         super(TOKEN_EXPIRE_TIME, prefix);

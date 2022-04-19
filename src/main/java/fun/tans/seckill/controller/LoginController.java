@@ -1,5 +1,6 @@
 package fun.tans.seckill.controller;
 
+import fun.tans.seckill.domain.MiaoshaUser;
 import fun.tans.seckill.redis.RedisService;
 import fun.tans.seckill.result.CodeMsg;
 import fun.tans.seckill.result.Result;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 
 /**
  * @Describe: 登陆模块Controller
@@ -37,7 +39,14 @@ public class LoginController {
 
 
     @GetMapping("/do_login")
-    public String login() {
+    public String login(HttpServletResponse response, MiaoshaUser user) {
+        if(user != null) {
+            try {
+                response.sendRedirect("/goods/to_list");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return "login";
     }
 
@@ -50,9 +59,8 @@ public class LoginController {
      */
     @PostMapping("/do_login")
     @ResponseBody
-    public Result<CodeMsg> doLogin(@Valid LoginVo loginVo, HttpServletResponse response) {
+    public Result<CodeMsg> doLogin(@Valid LoginVo loginVo, HttpServletResponse response){
         logger.info("【用户登陆提醒】" + loginVo.toString() + "尝试登陆....");
-
         miaoshaUserService.login(loginVo, response);
         return Result.success(CodeMsg.SUCCESS);
     }

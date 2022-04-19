@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.time.Duration;
+
 /**
  * @Describe: 类描述
  * @Author: tyf
@@ -28,7 +30,7 @@ public class RedisFactory {
         logger.info("redis连接池配置信息：" + redisConfig.toString());
         config.setMaxIdle(redisConfig.getPoolMaxIdle());
         config.setMaxTotal(redisConfig.getPoolMaxTotal());
-        config.setMaxWaitMillis(redisConfig.getPoolMaxWait());
+        config.setMaxWait(Duration.ofSeconds(3));
         JedisPool pool = new JedisPool(config, redisConfig.getHost(), redisConfig.getPort(), redisConfig.getTimeout() * 1000,
                 redisConfig.getPassword(), redisConfig.getDatabase());
         return pool;

@@ -35,15 +35,13 @@ public class OrderService {
         info.setGoodsName(goods.getGoodsName());
         info.setGoodsPrice(goods.getMiaoshaPrice());
         info.setPayDate(new Date());
-        long orderId = orderDao.insert(info);
+        orderDao.insert(info);
+        long orderId = info.getId();
         MiaoshaOrder miaoshaOrder = new MiaoshaOrder();
         miaoshaOrder.setOrderId(orderId);
         miaoshaOrder.setUserId(user.getId());
         miaoshaOrder.setGoodsId(goods.getId());
         orderDao.insertMiaoshaOrder(miaoshaOrder);
-
-        //回填订单编号
-        info.setId(orderId);
         return info;
     }
 }
