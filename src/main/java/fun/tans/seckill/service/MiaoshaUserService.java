@@ -35,7 +35,47 @@ public class MiaoshaUserService {
     private RedisService redisService;
 
     public MiaoshaUser getById(long id) {
-        return miaoshaUserDao.getById(id);
+
+        //取缓存
+        MiaoshaUser user = redisService.get(MiaoshaUserKey.getById, id + "", MiaoshaUser.class);
+        if(user != null){
+            return user;
+        }
+        user = miaoshaUserDao.getById(id);
+
+        /*加载到缓存中*/
+        if(user != null){
+            redisService.set(MiaoshaUserKey.getById, id+"", user);
+        }
+        return user;
+    }
+
+    /**
+     * 更新用户密码接口
+     * @param id           用户id
+     * @param formPassword 用户表单密码
+     * @param token        用户token
+     * @return 是否更改成功
+     */
+    public boolean updatePassword(long id, String formPassword, String token){
+        MiaoshaUser user;
+        if((user = miaoshaUserDao.getById(id)) == null){
+            throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
+        }
+
+        //update the data in database
+        MiaoshaUser toBeUpdate = new MiaoshaUser();
+        toBeUpdate.setId(id);
+        toBeUpdate.setPassword(MD5Util.formPassToDbPass(formPassword, user.getSalt()));
+        miaoshaUserDao.update(toBeUpdate);
+
+        //remove the data in redis
+        redisService.remove(MiaoshaUserKey.getById, id+"");
+
+        //update the token in redis
+        user.setPassword(toBeUpdate.getPassword());
+        redisService.set(MiaoshaUserKey.token, token, user.getPassword());
+        return true;
     }
 
     public boolean login(LoginVo loginVo, HttpServletResponse response) {

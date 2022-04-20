@@ -51,7 +51,8 @@ public class GoodsController {
     public String list(Model model, MiaoshaUser user, HttpServletRequest request, HttpServletResponse response) {
         model.addAttribute("user", user);
         String html = "";
-        //从缓存中取
+
+        //从缓存中取,如果存在那么返回
         html = redisService.get(GoodsKey.getGoodList, "", String.class);
         if(!StringUtils.isEmpty(html)){
             return html;

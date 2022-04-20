@@ -60,6 +60,24 @@ public class RedisService {
 
 
     /**
+     * 删除redis缓存数据
+     * @param prefix
+     * @param key
+     * @return
+     */
+    public boolean remove(KeyPrefix prefix, String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            //生成真正的key
+            String realKey = prefix.getPrefix() + key;
+            return jedis.del(realKey) > 0;
+        } finally {
+            returnToPool(jedis);
+        }
+    }
+
+    /**
      * 判断key是否存在
      */
     public <T> boolean exists(KeyPrefix prefix, String key) {
@@ -104,6 +122,13 @@ public class RedisService {
         }
     }
 
+
+    /**
+     * JavaObject to JsonString
+     * @param value:Java对象
+     * @return：Json字符串
+     * @param <T>:
+     */
     private <T> String beanToString(T value) {
         if (value == null) {
             return null;

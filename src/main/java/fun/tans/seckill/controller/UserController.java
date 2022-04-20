@@ -2,6 +2,7 @@ package fun.tans.seckill.controller;
 
 import fun.tans.seckill.domain.MiaoshaUser;
 import fun.tans.seckill.redis.RedisService;
+import fun.tans.seckill.result.CodeMsg;
 import fun.tans.seckill.result.Result;
 import fun.tans.seckill.service.GoodsService;
 import fun.tans.seckill.service.MiaoshaUserService;
@@ -39,6 +40,14 @@ public class UserController {
     public Result<MiaoshaUser> list(Model model, MiaoshaUser user) {
         return Result.success(user);
     }
+
+//    @GetMapping("/updatePassword")
+//    @ResponseBody
+//    public Result<MiaoshaUser> updatePass(Model model, MiaoshaUser user) {
+////        if(user == null) return Result.error(CodeMsg)
+//        userService.updatePassword(user.getId(), )
+//        return Result.success(user);
+//    }
 
 
 }

@@ -8,10 +8,11 @@ package fun.tans.seckill.redis;
 public class MiaoshaUserKey extends BasePrefix {
 
     public static final int TOKEN_EXPIRE_TIME = 24 * 60 * 60;
-    public static MiaoshaUserKey token = new MiaoshaUserKey("tk");
+    public static MiaoshaUserKey token = new MiaoshaUserKey(TOKEN_EXPIRE_TIME, "tk");
+    public static MiaoshaUserKey getById = new MiaoshaUserKey(0, "id");
 
-    public MiaoshaUserKey(String prefix) {
-        super(TOKEN_EXPIRE_TIME, prefix);
+    public MiaoshaUserKey(int time,  String prefix) {
+        super(time, prefix);
     }
 
 }
