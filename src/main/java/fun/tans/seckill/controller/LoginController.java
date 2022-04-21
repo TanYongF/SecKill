@@ -40,7 +40,7 @@ public class LoginController {
 
     @GetMapping("/do_login")
     public String login(HttpServletResponse response, MiaoshaUser user) {
-        if(user != null) {
+        if (user != null) {
             try {
                 response.sendRedirect("/goods/to_list");
             } catch (IOException e) {
@@ -59,7 +59,7 @@ public class LoginController {
      */
     @PostMapping("/do_login")
     @ResponseBody
-    public Result<CodeMsg> doLogin(@Valid LoginVo loginVo, HttpServletResponse response){
+    public Result<CodeMsg> doLogin(@Valid LoginVo loginVo, HttpServletResponse response) {
         logger.info("【用户登陆提醒】" + loginVo.toString() + "尝试登陆....");
         miaoshaUserService.login(loginVo, response);
         return Result.success(CodeMsg.SUCCESS);

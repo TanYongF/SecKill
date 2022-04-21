@@ -38,28 +38,35 @@ public class MiaoshaUserService {
 
         //取缓存
         MiaoshaUser user = redisService.get(MiaoshaUserKey.getById, id + "", MiaoshaUser.class);
-        if(user != null){
+        if (user != null) {
             return user;
         }
         user = miaoshaUserDao.getById(id);
 
         /*加载到缓存中*/
-        if(user != null){
-            redisService.set(MiaoshaUserKey.getById, id+"", user);
+        if (user != null) {
+            redisService.set(MiaoshaUserKey.getById, id + "", user);
         }
         return user;
     }
 
+    public boolean isAuth(String token) {
+        //取缓存
+        boolean exists = redisService.exists(MiaoshaUserKey.token, token);
+        return exists;
+    }
+
     /**
      * 更新用户密码接口
+     *
      * @param id           用户id
      * @param formPassword 用户表单密码
      * @param token        用户token
      * @return 是否更改成功
      */
-    public boolean updatePassword(long id, String formPassword, String token){
+    public boolean updatePassword(long id, String formPassword, String token) {
         MiaoshaUser user;
-        if((user = miaoshaUserDao.getById(id)) == null){
+        if ((user = miaoshaUserDao.getById(id)) == null) {
             throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         }
 
@@ -70,7 +77,7 @@ public class MiaoshaUserService {
         miaoshaUserDao.update(toBeUpdate);
 
         //remove the data in redis
-        redisService.remove(MiaoshaUserKey.getById, id+"");
+        redisService.remove(MiaoshaUserKey.getById, id + "");
 
         //update the token in redis
         user.setPassword(toBeUpdate.getPassword());

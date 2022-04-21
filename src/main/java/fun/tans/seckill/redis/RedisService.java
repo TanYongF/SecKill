@@ -61,6 +61,7 @@ public class RedisService {
 
     /**
      * 删除redis缓存数据
+     *
      * @param prefix
      * @param key
      * @return
@@ -125,9 +126,10 @@ public class RedisService {
 
     /**
      * JavaObject to JsonString
+     *
      * @param value:Java对象
-     * @return：Json字符串
      * @param <T>:
+     * @return：Json字符串
      */
     private <T> String beanToString(T value) {
         if (value == null) {

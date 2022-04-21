@@ -17,12 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 /**
  * @Describe: 物品管理模块Controller
@@ -54,7 +51,7 @@ public class GoodsController {
 
         //从缓存中取,如果存在那么返回
         html = redisService.get(GoodsKey.getGoodList, "", String.class);
-        if(!StringUtils.isEmpty(html)){
+        if (!StringUtils.isEmpty(html)) {
             return html;
         }
 
@@ -63,7 +60,7 @@ public class GoodsController {
         WebContext context = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap());
         //如果缓存中未命中
         html = thymeleafViewResolver.getTemplateEngine().process("goods_list", context);
-        if(!StringUtils.isEmpty(html)){
+        if (!StringUtils.isEmpty(html)) {
             redisService.set(GoodsKey.getGoodList, "", html);
         }
         return html;

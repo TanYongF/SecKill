@@ -44,4 +44,15 @@ public class OrderService {
         orderDao.insertMiaoshaOrder(miaoshaOrder);
         return info;
     }
+
+    /**
+     * 通过OrderId获取
+     *
+     * @param orderId 订单ID
+     * @return
+     */
+    public OrderInfo getByOrderId(long orderId) {
+        OrderInfo orderInfo = orderDao.getOrderInfoById(orderId);
+        return orderInfo;
+    }
 }

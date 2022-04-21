@@ -3,6 +3,7 @@ package fun.tans.seckill.config;
 import com.alibaba.druid.util.StringUtils;
 import fun.tans.seckill.domain.MiaoshaUser;
 import fun.tans.seckill.service.MiaoshaUserService;
+import fun.tans.seckill.util.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,7 +49,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
         String paramToken = request.getParameter(MiaoshaUserService.COOKIE_NAME_TOKEN);
-        String cookieToken = getCookieValue(request, MiaoshaUserService.COOKIE_NAME_TOKEN);
+        String cookieToken = RequestUtil.getCookieValue(request, MiaoshaUserService.COOKIE_NAME_TOKEN);
 
         //token为空，那么该用户未登录，返回null
         if (StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
@@ -59,21 +59,4 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         return userService.getByToken(response, token);
     }
 
-    /**
-     * 获取对应的用户Cookie值
-     *
-     * @param request
-     * @param cookieName
-     * @return 值
-     */
-    private String getCookieValue(HttpServletRequest request, String cookieName) {
-        Cookie[] cookies = request.getCookies();
-        if(cookies == null || cookies.length <= 0) return null;
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(cookieName)) {
-                return cookie.getValue();
-            }
-        }
-        return null;
-    }
 }
