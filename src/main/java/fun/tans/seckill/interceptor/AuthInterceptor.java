@@ -6,6 +6,8 @@ import fun.tans.seckill.result.CodeMsg;
 import fun.tans.seckill.service.MiaoshaUserService;
 import fun.tans.seckill.util.RequestUtil;
 import fun.tans.seckill.validator.NeedAuth;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -22,11 +24,13 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
 
+    Logger logger = LoggerFactory.getLogger(AuthInterceptor.class);
     @Autowired
     private MiaoshaUserService userService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         //获取注解
         boolean hasAuth;
         HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -44,6 +48,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             hasAuth = userService.isAuth(token);
         }
         if (!hasAuth) {
+            logger.error("用户请求被拦截");
             response.reset();
             response.setContentType("application/json;charset=UTF-8");
             response.setCharacterEncoding("UTF-8");
