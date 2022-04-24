@@ -13,7 +13,6 @@ public class MD5Util {
 
     public static String md5(String str) {
         return DigestUtils.md5Hex(str);
-//        return String.valueOf(DigestUtils.md5(str));
     }
 
     /**

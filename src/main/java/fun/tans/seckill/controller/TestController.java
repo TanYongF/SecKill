@@ -1,6 +1,8 @@
 package fun.tans.seckill.controller;
 
 import fun.tans.seckill.domain.User;
+import fun.tans.seckill.mq.MQReceiver;
+import fun.tans.seckill.mq.MQSender;
 import fun.tans.seckill.redis.RedisService;
 import fun.tans.seckill.redis.UserPrefix;
 import fun.tans.seckill.result.Result;
@@ -24,6 +26,12 @@ public class TestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MQReceiver mqReceiver;
+
+    @Autowired
+    private MQSender mqSender;
 
 
     @RequestMapping("/redis/get")
@@ -55,4 +63,23 @@ public class TestController {
         userService.insert(tan);
         return Result.success(true);
     }
+
+    @RequestMapping("/mq/send")
+    public Result<String> mqSend(){
+        mqSender.send("Hello Mq");
+        return Result.success("发送完成");
+    }
+
+    @RequestMapping("/mq/receive")
+    public Result<String> mqReceive(){
+        mqSender.send("Hello Mq");
+        return Result.success("发送完成");
+    }
+
+    @RequestMapping("/mq/send_topic")
+    public Result<String> mqTopicSend(){
+        mqSender.sendTopic("hello topic message");
+        return Result.success("发送topic message完成");
+    }
+
 }

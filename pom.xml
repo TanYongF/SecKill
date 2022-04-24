@@ -111,6 +111,12 @@
             <artifactId>hutool-core</artifactId>
             <version>5.8.0.M2</version>
         </dependency>
+
+<!--        rabbitMq-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

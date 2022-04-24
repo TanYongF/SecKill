@@ -38,3 +38,4 @@ application-dev.properties
 
 #MAVEN
 
+/src/main/resources/application-prod.properties
