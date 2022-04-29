@@ -48,8 +48,10 @@
 
 					</td>
 					<td>
-						<button class="btn btn-primary btn-block" type="button" id="buyButton"onclick="doMiaosha()">立即秒杀</button>
-						<input type="hidden" name="goodsId"  th:id="goodsId" th:value="${goods.id}" />
+						<button class="btn btn-primary btn-block" id="buyButton" onclick="doMiaosha()" type="button">
+							立即秒杀
+						</button>
+						<input name="goodsId" th:id="goodsId" th:value="${goods.id}" type="hidden"/>
 					</td>
 				</tr>
 				<tr>
@@ -79,22 +81,23 @@
         $(function () {
             countDown();
         });
-        function doMiaosha(){
+
+        function doMiaosha() {
             console.log($("#goodsId").val());
             $.ajax({
-                url:"/miaosha/do_miaosha",
-                type:"POST",
-                data:{
-                    goodsId:$("#goodsId").val(),
+                url: "/miaosha/do_miaosha",
+                type: "POST",
+                data: {
+                    goodsId: $("#goodsId").val(),
                 },
-                success:function(data){
-                    if(data.code == 0){
-                        window.location.href="/order_detail.htm?orderId="+data.data.id;
-                    }else{
+                success: function (data) {
+                    if (data.code == 0) {
+                        window.location.href = "/order_detail.htm?orderId=" + data.data.id;
+                    } else {
                         layer.msg(data.msg);
                     }
                 },
-                error:function(){
+                error: function () {
                     layer.msg("客户端请求有误");
                 }
             });

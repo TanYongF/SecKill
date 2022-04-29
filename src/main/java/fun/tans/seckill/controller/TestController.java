@@ -65,21 +65,35 @@ public class TestController {
     }
 
     @RequestMapping("/mq/send")
-    public Result<String> mqSend(){
+    public Result<String> mqSend() {
         mqSender.send("Hello Mq");
         return Result.success("发送完成");
     }
 
     @RequestMapping("/mq/receive")
-    public Result<String> mqReceive(){
+    public Result<String> mqReceive() {
         mqSender.send("Hello Mq");
         return Result.success("发送完成");
     }
 
     @RequestMapping("/mq/send_topic")
-    public Result<String> mqTopicSend(){
+    public Result<String> mqTopicSend() {
         mqSender.sendTopic("hello topic message");
         return Result.success("发送topic message完成");
+    }
+
+    @ResponseBody
+    @RequestMapping("/mq/send_fanout")
+    public Result<String> mqFanoutSend() {
+        mqSender.sendFanout("hello fanout message");
+        return Result.success("发送fanout message完成");
+    }
+
+    @ResponseBody
+    @RequestMapping("/mq/send_header")
+    public Result<String> mqHeadersSend() {
+        mqSender.sendFanout("hello header message");
+        return Result.success("发送fanout message完成");
     }
 
 }

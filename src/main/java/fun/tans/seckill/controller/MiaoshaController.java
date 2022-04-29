@@ -21,9 +21,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * @Describe: 秒杀模块Controller
+ *
  * @Author: tyf
  * @CreateTime: 2022/4/18
+ * @Describe: 秒杀模块Controller
+ *
+ * 1.系统初始化，将商品库存数量加载到redis
+ * 2.收到请求，Redis预减库存，库存不足，直接返回，否则进入3
+ * 3.请求入队，立即返回排队中
+ * 4.请求出队，生成订单，较少库存
+ * 5.客户端轮询，是否秒杀成功
+ *
  **/
 @Controller
 @RequestMapping("/miaosha")

@@ -112,7 +112,7 @@
             <version>5.8.0.M2</version>
         </dependency>
 
-<!--        rabbitMq-->
+        <!--        rabbitMq-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>

@@ -33,7 +33,7 @@ public class JSONUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static  <T> T stringToBean(String str, Class<T> clazz) {
+    public static <T> T stringToBean(String str, Class<T> clazz) {
         if (str == null || str.length() <= 0 || clazz == null) {
             return null;
         }

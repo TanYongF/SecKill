@@ -17,7 +17,25 @@ public class MQReceiver {
     private static Logger logger = LoggerFactory.getLogger(MQReceiver.class);
 
     @RabbitListener(queues = MQConfig.QUEUE_NAME)
-    public void receive(String message){
+    public void receive(String message) {
         logger.info("receive message" + message);
     }
+
+    @RabbitListener(queues = MQConfig.FANOUT_QUEUE)
+    public void receiveFanout(String message) {
+        logger.info("receive fanout message" + message);
+    }
+
+    /**
+     * 监听header_queue
+     *
+     * @param message
+     */
+    @RabbitListener(queues = MQConfig.HEADER_QUEUE)
+    public void receiveHeader(byte[] message) {
+        logger.info("receive header message" + new String(message));
+    }
+
 }
+
+
