@@ -36,9 +36,8 @@ public class OrderService {
         info.setGoodsPrice(goods.getMiaoshaPrice());
         info.setPayDate(new Date());
         orderDao.insert(info);
-        long orderId = info.getId();
         MiaoshaOrder miaoshaOrder = new MiaoshaOrder();
-        miaoshaOrder.setOrderId(orderId);
+        miaoshaOrder.setOrderId(info.getId());
         miaoshaOrder.setUserId(user.getId());
         miaoshaOrder.setGoodsId(goods.getId());
         orderDao.insertMiaoshaOrder(miaoshaOrder);

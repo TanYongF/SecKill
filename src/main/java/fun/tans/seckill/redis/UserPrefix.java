@@ -7,7 +7,6 @@ package fun.tans.seckill.redis;
  **/
 public class UserPrefix extends BasePrefix {
 
-
     public static UserPrefix getById = new UserPrefix("id");
     public static UserPrefix getByName = new UserPrefix("name");
 

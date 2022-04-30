@@ -61,5 +61,11 @@ public class MQSender {
         logger.info("send headers message " + str);
     }
 
+    public void sendMiaosha(MiaoshaMessage msg) {
+        String str = JSONUtil.beanToString(msg);
+        amqpTemplate.convertAndSend(MQConfig.MIAOSHA_QUEUE_NAME, str);
+        logger.info("send message " + str);
+    }
+
 
 }

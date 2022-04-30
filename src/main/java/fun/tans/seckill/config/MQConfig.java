@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 @Configuration
 public class MQConfig {
-
+    public static final String MIAOSHA_QUEUE_NAME = "miaosha_queue";
     public static final String QUEUE_NAME = "queue";
     public static final String TOPIC_QUEUE_NAME1 = "topic_queue1";
     public static final String TOPIC_QUEUE_NAME2 = "topic_queue2";
@@ -26,6 +26,17 @@ public class MQConfig {
     public static final String HEADER_QUEUE = "header_queue1";
     public static final String HEADER_EXCHANGE = "headerExchange";
 
+
+    /**
+     * 秒杀专用queue
+     *
+     * @return
+     */
+    @Bean
+    public Queue miaoshaQueue() {
+        return new Queue(MIAOSHA_QUEUE_NAME, true);
+    }
+
     /**
      * 直通模式
      *
@@ -35,6 +46,7 @@ public class MQConfig {
     public Queue queue() {
         return new Queue(QUEUE_NAME, true);
     }
+
 
     /**
      * Topic模式 Exchange交换机
