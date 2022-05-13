@@ -78,9 +78,32 @@
 		</div>
 	</body>
 	<script>
-        $(function () {
-            countDown();
-        });
+        let goodId = $("#goodsId").val();
+            $(function () {
+                countDown();
+            });
+
+        function getMiaoshaPath(){
+            g_showLoading();
+            $.ajax({
+                url: "/miaosha/path",
+                type: "GET",
+                data: {
+                    goodsId: $("#goodsId").val(),
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+                        // window.location.href = "/order_detail.htm?orderId=" + data.data.id;
+                        getMiaoshaResult($("#goodsId"))
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function () {
+                    layer.msg("客户端请求有误");
+                }
+            });
+        }
 
         function getMiaoshaResult(goodsId) {
             g_showLoading();
@@ -118,10 +141,10 @@
             });
         }
 
-        function doMiaosha() {
+        function doMiaosha(path) {
             console.log($("#goodsId").val());
             $.ajax({
-                url: "/miaosha/do_quick_miaosha",
+                url: "/miaosha/" + path + "do_quick_miaosha",
                 type: "POST",
                 data: {
                     goodsId: $("#goodsId").val(),
@@ -138,7 +161,6 @@
                     layer.msg("客户端请求有误");
                 }
             });
-
         }
 
         function countDown() {

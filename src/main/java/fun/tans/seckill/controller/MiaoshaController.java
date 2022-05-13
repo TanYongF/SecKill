@@ -6,6 +6,7 @@ import fun.tans.seckill.domain.OrderInfo;
 import fun.tans.seckill.mq.MQSender;
 import fun.tans.seckill.mq.MiaoshaMessage;
 import fun.tans.seckill.redis.GoodsKey;
+import fun.tans.seckill.redis.MiaoshaKey;
 import fun.tans.seckill.redis.RedisService;
 import fun.tans.seckill.result.CodeMsg;
 import fun.tans.seckill.result.Result;
@@ -13,6 +14,7 @@ import fun.tans.seckill.service.GoodsService;
 import fun.tans.seckill.service.MiaoshaOrderService;
 import fun.tans.seckill.service.MiaoshaService;
 import fun.tans.seckill.service.MiaoshaUserService;
+import fun.tans.seckill.util.MD5Util;
 import fun.tans.seckill.validator.NeedAuth;
 import fun.tans.seckill.vo.GoodsVo;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @Author: tyf
@@ -98,11 +101,6 @@ public class MiaoshaController implements InitializingBean {
         //执行秒杀流程
         OrderInfo orderInfo = miaoshaService.miaosha(goods, user);
 
-//        //填充model数据
-//        model.addAttribute("orderInfo", orderInfo);
-//        model.addAttribute("goods", goods);
-//        model.addAthtribute("user", user);
-
         return Result.success(orderInfo);
     }
 
@@ -113,17 +111,21 @@ public class MiaoshaController implements InitializingBean {
      * 3.请求入队，立即返回排队中
      * 4.请求出队，生成订单，较少库存
      * 5.客户端轮询，是否秒杀成功
-     *
+     *TODO
      * @param model
      * @param user:用户上下文信息
      * @param goodsId:秒杀商品id
      * @return modelName
      */
-    @PostMapping("/do_quick_miaosha")
+    @PostMapping("/{path}/do_quick_miaosha")
     @ResponseBody
     @NeedAuth
     public Result<Integer> miaosha2(Model model, MiaoshaUser user,
-                                    @RequestParam("goodsId") long goodsId) {
+                                    @RequestParam("goodsId") long goodsId, 
+                                    @PathVariable String path) {
+
+        //验证path
+
 
         //访问内存标记
         boolean over = localOverMap.get(goodsId);
@@ -168,6 +170,27 @@ public class MiaoshaController implements InitializingBean {
         long result = miaoshaOrderService.getMiaoshaResult(user.getId(), goodsId);
 
         return Result.success(result);
+    }
+
+    /**
+     * 返回秒杀结果
+     * -1:秒杀失败
+     * 0：排队中
+     * 其他：生成订单ID
+     *
+     * @param user
+     * @param goodsId
+     * @return
+     */
+    @GetMapping("/path")
+    @ResponseBody
+    @NeedAuth
+    public Result<String> miaoshaPath(MiaoshaUser user, @RequestParam("goodsId") long goodsId) {
+        UUID uuid = UUID.randomUUID();
+        String path = MD5Util.md5(uuid + "123456");
+        //添加
+        redisService.set(MiaoshaKey.getMiaoshaPath, "" + user.getId() + "_" + goodsId, path);
+        return Result.success(path);
     }
 
 

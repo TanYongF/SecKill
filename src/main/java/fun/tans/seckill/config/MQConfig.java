@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 
 /**
- * @Describe: 类描述
+ * @Describe: 消息队列配置类
  * @Author: tyf
  * @CreateTime: 2022/4/24
  **/
